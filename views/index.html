@@ -13,13 +13,31 @@
 </head>
 
 <body>
-    <div id="count">
-        {{ template "count" . }}
-    </div>
-    <button hx-target="#count" hx-post="/count">Count</button>
+    {{ template "form" . }}
+    <hr />
+    {{ template "display" . }}
 </body>
 
 </html>
 {{ end }}
 
-{{ block "count" . }}Count {{ .Count }}{{ end }}
+{{ block "form" . }}
+<form hx-target="#contacts" hx-swap="outerHTML" hx-post="/contacts">
+    name: <input type="text" name="name">
+    <br />
+    email: <input type="text" name="email">
+    <br />
+    <button type="submit">Create Contact</button>
+</form>
+{{ end }}
+
+{{ block "display" . }}
+<ul id="contacts">
+    {{ range .Contacts }}
+    <li>
+        Name: <span>{{ .Name }}</span>
+        Email: <span>{{ .Email }}</span>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
